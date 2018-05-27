@@ -1,0 +1,7 @@
+auto generated, do not change !!!! 
+
+HOST : com.shiye.jimukotlin
+
+app ×é¼þ mainactivity
+/app/main
+

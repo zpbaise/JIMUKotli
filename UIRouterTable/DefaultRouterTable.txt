@@ -1,0 +1,7 @@
+auto generated, do not change !!!! 
+
+HOST : default
+
+app ×é¼þ mainactivity
+/app/main
+

@@ -1,0 +1,48 @@
+apply plugin: 'com.dd.comgradle'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+kapt {
+    arguments {
+        arg("host","com.shiye.jimukotlin")
+    }
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId rootProject.ext.applicationId
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //定义app组件的scheme和host
+        /*javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [scheme:"component",host: "com.shiye.jimukotlin"]
+            }
+        }*/
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':libframework')
+//    annotationProcessor 'com.luojilab.ddcomponent:router-anno-compiler:1.0.0'
+    kapt 'com.luojilab.ddcomponent:router-anno-compiler:1.0.0'
+
+}
+
+combuild {
+    applicationName = 'com.shiye.jimukotlin.kotlin.AppApplication'
+    isRegisterCompoAuto = true
+}

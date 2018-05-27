@@ -1,0 +1,7 @@
+auto generated, do not change !!!! 
+
+HOST : com.shiye.componetone
+
+×é¼þ1 activity
+/one/activity
+
