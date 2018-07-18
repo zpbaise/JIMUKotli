@@ -3,7 +3,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+
 kapt {
+    generateStubs = true
     arguments {
         arg("host","com.shiye.componetone")
     }
@@ -43,9 +45,17 @@ dependencies {
 //    annotationProcessor 'com.luojilab.ddcomponent:router-anno-compiler:1.0.0'
 //    kapt 'com.github.jimu:router-anno-compiler:1.0.1'
     kapt 'com.luojilab.ddcomponent:router-anno-compiler:1.0.0'
+
+    //dagger2 apt注解
+    kapt 'com.google.dagger:dagger-compiler:2.16'
 }
 
 combuild {
     applicationName = 'com.shiye.componentone.CompOneApplication'
     isRegisterCompoAuto = true
+}
+kotlin {
+    experimental {
+        coroutines "warn"
+    }
 }

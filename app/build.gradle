@@ -5,6 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 kapt {
+    generateStubs = true
     arguments {
         arg("host","com.shiye.jimukotlin")
     }
@@ -40,6 +41,10 @@ dependencies {
 //    annotationProcessor 'com.luojilab.ddcomponent:router-anno-compiler:1.0.0'
     kapt 'com.luojilab.ddcomponent:router-anno-compiler:1.0.0'
 
+    //dagger2 apt注解
+    kapt 'com.google.dagger:dagger-compiler:2.16'
+
+    testImplementation 'junit:junit:4.12'
 }
 
 combuild {

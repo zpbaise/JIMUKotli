@@ -5,20 +5,26 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.AppCompatButton
+        android:id="@+id/register_bt"
         android:layout_marginTop="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="注册组件1"
-        android:onClick="registerCompOne"/>
+        android:text="注册组件1"/>
     <android.support.v7.widget.AppCompatButton
+        android:id="@+id/unregister_bt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="注销组件1"
-        android:onClick="unregisterCompOne"/>
+        android:text="注销组件1"/>
     <android.support.v7.widget.AppCompatButton
+        android:id="@+id/start_bt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="start组件1"
-        android:onClick="startCompOne"
+        />
+    <fragment
+        android:id="@+id/testFragment"
+        android:name="com.shiye.jimukotlin.kotlin.TestFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         />
 </LinearLayout>

@@ -1,4 +1,11 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+/*kapt {
+    generateStubs = true
+}*/
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -37,4 +44,33 @@ dependencies {
 
     api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
+    //Anko基础库
+    api "org.jetbrains.anko:anko:$anko_version"
+
+    // Anko RecyclerView-v7
+    api "org.jetbrains.anko:anko-recyclerview-v7:$anko_version"
+    api "org.jetbrains.anko:anko-recyclerview-v7-coroutines:$anko_version"
+
+    //Anko协程
+    api "org.jetbrains.anko:anko-coroutines:$anko_version"
+
+    //dagger2
+    api 'com.google.dagger:dagger:2.16'
+
+
+    api 'com.squareup.retrofit2:retrofit:2.4.0'
+
+    //rxjava rxandroid依赖
+    api 'io.reactivex.rxjava2:rxjava:2.1.12'
+    api 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    // 针对rxjava2.x（adapter-rxjava2的版本要 >= 2.2.0）
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    //retrofit依赖
+    api 'com.squareup.retrofit2:retrofit:2.4.0'
+    api 'com.squareup.retrofit2:converter-gson:2.4.0'
+    //autodispose rxjava生命周期管理
+    api 'com.uber.autodispose:autodispose:0.6.1'
+    api 'com.uber.autodispose:autodispose-android-archcomponents:0.6.1'
+
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
 }
