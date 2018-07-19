@@ -1,5 +1,6 @@
 package com.shiye.jimukotlin.kotlin;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.shiye.baselibrary.net.ApiServiceFactory;
 import com.shiye.baselibrary.net.callback.CallBack;
@@ -33,40 +35,80 @@ public class TestFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_test, container, false);
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("type","1");
+        final MainActivity.APIService apiService = ApiServiceFactory.INSTANCE.defaultCreateApiService(getContext(), "http://www.meandy.com/", hashMap,
+                MainActivity.APIService.class);
+        Button button1 = view.findViewById(R.id.interface1);
+        Button button2 = view.findViewById(R.id.interface2);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parseResponseConstrOuter(
+                        getContext(),
+                        apiService.getObject(),
+                        AutoDispose.<BaseResponse<ObjTestData>>autoDisposable(AndroidLifecycleScopeProvider.from(getLifecycle())),
+                        new CallBack<BaseResponse<ObjTestData>>() {
+                            @Override
+                            public void onComplete() {
+
+                            }
+
+                            @Override
+                            public void onFailed(@NotNull ResponseException e) {
+                                Log.e("AAA", "onFailed: " + e.getMessage());
+                            }
+
+                            @Override
+                            public void onSucceed(BaseResponse<ObjTestData> result) {
+                                Log.e("AAA", "onFailed: " + result.toString());
+                            }
+
+                            @Override
+                            public void onBefore(@NotNull Disposable disposable) {
+
+                            }
+                        });
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parseResponseConstrOuter(
+                        getActivity(),
+                        true,
+                        apiService.getObject(),
+                        AutoDispose.<BaseResponse<ObjTestData>>autoDisposable(AndroidLifecycleScopeProvider.from(getLifecycle())),
+                        new CallBack<BaseResponse<ObjTestData>>() {
+                            @Override
+                            public void onComplete() {
+
+                            }
+
+                            @Override
+                            public void onFailed(@NotNull ResponseException e) {
+                                Log.e("AAA", "onFailed: " + e.getMessage());
+                            }
+
+                            @Override
+                            public void onSucceed(BaseResponse<ObjTestData> result) {
+                                Log.e("AAA", "onFailed: " + result.toString());
+                            }
+
+                            @Override
+                            public void onBefore(@NotNull Disposable disposable) {
+
+                            }
+                        });
+            }
+        });
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("type","1");
-        MainActivity.APIService apiService = ApiServiceFactory.INSTANCE.defaultCreateApiService(getContext(), "http://www.meandy.com/", hashMap,
-                MainActivity.APIService.class);
-        parseResponseConstrOuter(
-                getContext(),
-                apiService.getObject(),
-                AutoDispose.<BaseResponse<ObjTestData>>autoDisposable(AndroidLifecycleScopeProvider.from(this)),
-                new CallBack<BaseResponse<ObjTestData>>() {
-                    @Override
-                    public void onComplete() {
 
-                    }
 
-                    @Override
-                    public void onFailed(@NotNull ResponseException e) {
-                        Log.e("AAA", "onFailed: " + e.getMessage());
-                    }
-
-                    @Override
-                    public void onSucceed(BaseResponse<ObjTestData> result) {
-                        Log.e("AAA", "onFailed: " + result.toString());
-                    }
-
-                    @Override
-                    public void onBefore(@NotNull Disposable disposable) {
-
-                    }
-                });
         super.onViewCreated(view, savedInstanceState);
     }
 }

@@ -26,7 +26,6 @@ object ApiServiceFactory {
                 RxJava2CallAdapterFactory.create(),
                 GsonConverterFactory.create(getGson()),
                 service)
-
     }
 
     /**
@@ -39,7 +38,6 @@ object ApiServiceFactory {
                 RxJava2CallAdapterFactory.create(),
                 GsonConverterFactory.create(getGson()),
                 service)
-
     }
 
     /**
@@ -58,6 +56,5 @@ object ApiServiceFactory {
                 .client(client)
                 .build()
                 .create(service)
-
     }
 }

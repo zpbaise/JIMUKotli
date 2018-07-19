@@ -1,15 +1,18 @@
 package com.shiye.baselibrary.net.observer
 
 
+import android.app.Activity
 import android.os.SystemClock
 import android.support.v4.app.FragmentManager
 import android.view.View
+import com.shiye.baselibrary.R
 import com.shiye.baselibrary.net.callback.CallBack
 
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
 import com.shiye.baselibrary.net.exception.handleException
+import com.shiye.baselibrary.net.loadingView.LoadingDialog
 import com.shiye.baselibrary.net.loadingView.LoadingFragment
 import com.shiye.baselibrary.net.loadingView.SupportLoadingFragment
 
@@ -30,6 +33,9 @@ class ResponseObserver<T>(private var callback: CallBack<T>) : Observer<T> {
     private var mLoadingView: View? = null
 
     private var mIsShowLoading = false
+
+    private var mActivity: Activity? = null
+    private var mLoadingDialog: LoadingDialog? = null
 
     /**
      * support的FragmentManager
@@ -79,6 +85,25 @@ class ResponseObserver<T>(private var callback: CallBack<T>) : Observer<T> {
         }
     }
 
+    constructor(activity: Activity?, loadingView: View?, loadingviewCancelable: Boolean = true, callback: CallBack<T>) : this(callback) {
+        if (activity == null) {
+            mIsShowLoading = false
+        } else {
+            mIsShowLoading = true
+        }
+        mActivity = activity
+        mLoadingView = loadingView
+        mLoadingDialog = activity?.let {
+            LoadingDialog(it, R.style.Loading_Dialog)
+                    .apply {
+                        setCancelable(loadingviewCancelable)
+                        mLoadingView?.let {
+                            setLoadingView(it)
+                        }
+                    }
+        }
+    }
+
     override fun onSubscribe(d: Disposable) {
         if (mIsShowLoading) {
             mSupportLoadingFragment?.let {
@@ -92,6 +117,11 @@ class ResponseObserver<T>(private var callback: CallBack<T>) : Observer<T> {
                     it.dismiss()
                 }
                 it.show(mFragmentManager, SupportLoadingFragment::class.java.name)
+            }
+            mLoadingDialog?.let {
+                if (!it.isShowing) {
+                    it.show()
+                }
             }
         }
         callback.onBefore(d)
@@ -113,6 +143,11 @@ class ResponseObserver<T>(private var callback: CallBack<T>) : Observer<T> {
                     it.dismiss()
                 }
             }
+            mLoadingDialog?.let {
+                if (it.isShowing) {
+                    it.dismiss()
+                }
+            }
         }
         val responseException = handleException(e)
         callback.onFailed(responseException)
@@ -127,6 +162,11 @@ class ResponseObserver<T>(private var callback: CallBack<T>) : Observer<T> {
             }
             mLoadingFragment?.let {
                 if (it.isAdded) {
+                    it.dismiss()
+                }
+            }
+            mLoadingDialog?.let {
+                if (it.isShowing) {
                     it.dismiss()
                 }
             }
