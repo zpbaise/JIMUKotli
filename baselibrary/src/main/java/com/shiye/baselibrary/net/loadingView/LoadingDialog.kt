@@ -13,7 +13,7 @@ import com.shiye.baselibrary.R
 class LoadingDialog @JvmOverloads constructor(context: Context, themeResId: Int = -1) : AlertDialog(context, themeResId) {
     private var mLoadingView: View? = null
 
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mLoadingView?.let { setContentView(it) }
         setContentView(R.layout.loading_dialog)

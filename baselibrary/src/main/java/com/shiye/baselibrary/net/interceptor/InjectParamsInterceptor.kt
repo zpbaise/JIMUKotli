@@ -42,8 +42,8 @@ class InjectParamsInterceptor private constructor(private var urlParamsMap: Muta
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
 
-        var request: Request? = chain.request()
-        val requestBuilder = request!!.newBuilder()
+        var request: Request = chain.request()
+        val requestBuilder = request.newBuilder()
         val headerBuilder = request.headers().newBuilder()
 
         // 以 Entry 添加消息头
@@ -115,7 +115,7 @@ class InjectParamsInterceptor private constructor(private var urlParamsMap: Muta
     }
 
     // func to inject params into url
-    private fun injectParamsIntoUrl(httpUrlBuilder: HttpUrl.Builder, requestBuilder: Request.Builder, paramsMap: Map<String, String>): Request? {
+    private fun injectParamsIntoUrl(httpUrlBuilder: HttpUrl.Builder, requestBuilder: Request.Builder, paramsMap: Map<String, String>): Request {
         if (paramsMap.size > 0) {
             val iterator = paramsMap.entries.iterator()
             while (iterator.hasNext()) {
@@ -123,9 +123,8 @@ class InjectParamsInterceptor private constructor(private var urlParamsMap: Muta
                 httpUrlBuilder.addQueryParameter(entry.key, entry.value)
             }
             requestBuilder.url(httpUrlBuilder.build())
-            return requestBuilder.build()
         }
-        return null
+        return requestBuilder.build()
     }
 
     private fun bodyToString(requestBody: RequestBody?): String {
